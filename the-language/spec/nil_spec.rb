@@ -21,14 +21,8 @@ RSpec.describe "nil in Ruby" do
 
   it "has a few methods defined on it" do
     expect( nil.nil? ).to eq(true)
-    expect( nil.to_s ).to eq('')
-    expect( nil.inspect ).to eq('nil')
-  end
-
-  it 'returns the the correct output for callees of different types' do
-    expect( 'string'.nil? ).to eq(false)
-    expect( 5.nil? ).to eq(false)
-    expect( [1,2].nil? ).to eq(false)
+    expect( nil.to_s ).to eq("")
+    expect( nil.inspect ).to eq("nil")
   end
 
 end

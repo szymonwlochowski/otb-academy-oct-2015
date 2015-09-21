@@ -8,13 +8,13 @@ RSpec.describe "Objects in ruby" do
   end
 
   it "can be converted to a string" do
-    expect( 999.to_s ).to eq( '999' )
-    expect( nil.to_s ).to eq( '' )
+    expect( 999.to_s ).to eq( "999" )
+    expect( nil.to_s ).to eq( "" )
   end
 
   it "can be inspected" do
-    expect( 123.inspect ).to eq( '123' )
-    expect( nil.inspect ).to eq( 'nil' )
+    expect( 123.inspect ).to eq( "123" )
+    expect( nil.inspect ).to eq( "nil" )
   end
 
 
