@@ -15,6 +15,15 @@
 #
 def triangle(a, b, c)
   # WRITE THIS CODE
+  sorted = [a,b,c].sort
+
+  #raise TriangleError unless [a,b,c].uniq.length == 1
+  #raise TriangleError unless [a,b,c].uniq.length == 2
+  raise TriangleError unless a > 0
+  #raise TriangleError if sorted[0,2].inject(:+) <= sorted[2]
+  raise TriangleError unless sorted[0,2].inject(:+) > sorted[2]
+
+
   if [a,b,c].uniq.length == 1
   	return :equilateral
   elsif [a,b,c].uniq.length == 2
@@ -22,6 +31,8 @@ def triangle(a, b, c)
   else
   	return :scalene
   end
+
+  
 end
 
 # Error class used in part 2.  No need to change this code.
