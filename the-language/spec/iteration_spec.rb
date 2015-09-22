@@ -66,8 +66,7 @@ RSpec.describe "iterating in ruby" do
 
     # WT*:
     # Describe in your own words what inject does.
-    # It multiplies numbers in the array and then multiplies the result by the number passed in ()? hopefully
-    # So [2,3,4].inject(10) would be 2*3*4*10
+    # It performs an operation on the numbers in an array
   end
 
   it "can use iteration methods on all collections, not just array" do
