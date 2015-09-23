@@ -29,9 +29,41 @@
 
 def score(dice)
   # You need to write this method
+  score = 0
+
+  if !dice.empty? 
+    dice.sort.group_by{ |number| number }.values.each do |number_set|
+      number = number_set[0]
+      count = number_set.size
+
+      if number == 1 
+        if number_set.size == 3
+          score += 1000
+        elsif number_set.size < 3
+          score += count * 100
+        elsif number_set.size > 3
+          score += 1000
+          score += (count - 3) * 100
+        end
+      elsif number == 5
+        if number_set.size == 3
+          score += 500
+        elsif number_set.size < 3
+          score += count * 50
+        elsif number_set.size > 3
+          score += 500
+          score += (count - 3) * 50
+        end
+      elsif number_set.size == 3
+        score += (number * 100)
+      end
+    end
+  end
+
+  score
 end
 
-RSpec.describe "scorign a game of greed" do
+RSpec.describe "scoring a game of greed" do
   it "scores an empty list as 0" do
     expect( score([]) ).to eq( 0 )
   end
