@@ -1,5 +1,5 @@
 RSpec.describe "inheritance" do
-  class Dog
+  class Dog8
     attr_reader :name
 
     def initialize(name)
@@ -11,7 +11,7 @@ RSpec.describe "inheritance" do
     end
   end
 
-  class Chihuahua < Dog
+  class Chihuahua < Dog8
     def wag
       :happy
     end
@@ -22,48 +22,48 @@ RSpec.describe "inheritance" do
   end
 
   it "sets the subclass parent as an ancestor" do
-    expect( Chihuahua.ancestors.include?(Dog) ).to eq( __ )
+    expect( Chihuahua.ancestors.include?(Dog8) ).to eq( true )
   end
 
   it "will ultimately inherit from Object" do
-    expect( Chihuahua.ancestors.include?(Object) ).to eq( __ )
+    expect( Chihuahua.ancestors.include?(Object) ).to eq( true )
   end
 
   it "inherits behaviour from a parent class" do
     chico = Chihuahua.new("Chico")
-    expect( chico.name ).to eq( __ )
+    expect( chico.name ).to eq( "Chico" )
   end
 
   it "can add behaviour in subclass, not in a parent class" do
     chico = Chihuahua.new("Chico")
-    expect( chico.wag ).to eq( __ )
+    expect( chico.wag ).to eq( :happy )
 
     expect {
-      fido = Dog.new("Fido")
+      fido = Dog8.new("Fido")
       fido.wag
-    }.to raise_error( __ )
+    }.to raise_error( NoMethodError )
   end
 
   it "can modify behaviour in a subclass" do
     chico = Chihuahua.new("Chico")
-    expect( chico.bark ).to eq( __ )
+    expect( chico.bark ).to eq( "yip" )
 
-    fido = Dog.new("Fido")
-    expect( fido.bark ).to eq( __ )
+    fido = Dog8.new("Fido")
+    expect( fido.bark ).to eq( "WOOF" )
   end
 
-  class BullDog < Dog
+  class BullDog8 < Dog8
     def bark
       super + ", GROWL"
     end
   end
 
   it "can invoke the parent behaviour using super" do
-    ralph = BullDog.new("Ralph")
-    expect( ralph.bark ).to eq( __ )
+    ralph = BullDog8.new("Ralph")
+    expect( ralph.bark ).to eq( "WOOF, GROWL" )
   end
 
-  class GreatDane < Dog
+  class GreatDane < Dog8
     def growl
       super.bark + ", GROWL"
     end
@@ -73,7 +73,7 @@ RSpec.describe "inheritance" do
     george = GreatDane.new("George")
     expect {
       george.growl
-    }.to raise_error( __ )
+    }.to raise_error( NoMethodError )
   end
 
 end
