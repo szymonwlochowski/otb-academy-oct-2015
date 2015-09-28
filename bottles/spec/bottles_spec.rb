@@ -1,5 +1,4 @@
 require 'bottles'
-require 'bottles2'
 
 describe "singing 99 bottles of beer" do
 
@@ -31,11 +30,12 @@ describe "singing 99 bottles of beer" do
   end
 
   it "can string a few verses together" do
-    expected = "8 bottles of beer on the wall, 8 bottles of beer.\nTake one down and pass it around, 7 bottles of beer on the wall.\n\n7 bottles of beer on the wall, 7 bottles of beer.\nTake one down and pass it around, 6 bottles of beer on the wall.\n\n6 bottles of beer on the wall, 6 bottles of beer.\nTake one down and pass it around, 5 bottles of beer on the wall.\n\n"
+    expected = "8 bottles of beer on the wall, 8 bottles of beer.\nTake one down and pass it around, 7 bottles of beer on the wall.\n\n7 bottles of beer on the wall, 7 bottles of beer.\nTake one down and pass it around, 6 pack of beer on the wall.\n\n6 pack of beer on the wall, 6 pack of beer.\nTake one down and pass it around, 5 bottles of beer on the wall.\n\n"
     expect( song.verses(8, 6) ).to eq( expected )
   end
 
   it "can sing the whole song" do
     expect( song.sing ).to eq( song.verses(99, 0) )
   end
+
 end

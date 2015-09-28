@@ -1,14 +1,13 @@
 class Bottles
   def verse(num)
-      "#{no_more(num).capitalize} #{bottles_or_bottle(num)} of beer on the wall, #{no_more(num)} #{bottles_or_bottle(num)} of beer.\n" +
-        "#{action(num)}, #{bottles_remaining(num)} of beer on the wall.\n"
+    bottle_number = BottleNumber.for(num)
+    next_bottle = BottleNumber.for bottle_number.decrement
+      "#{bottle_number.no_more.capitalize} #{bottle_number.bottles_or_bottle} on the wall, #{bottle_number.no_more} #{bottle_number.bottles_or_bottle}.\n#{bottle_number.action}, #{next_bottle.no_more} #{next_bottle.bottles_or_bottle} on the wall.\n"
   end
 
   def verses(num, num2)
     result = ""
-    num.downto(num2).each do |v|
-      result += verse(v) + "\n"
-    end
+    num.downto(num2).map { |v| result += verse(v) + "\n" }
     result
   end
 
@@ -16,71 +15,68 @@ class Bottles
     verses(99,0)
   end
 
-  private
-  def action(num)
-    BottleNumber.new(num).action
-  end
-
-  def bottles_or_bottle(num)
-    BottleNumber.new(num).bottles_or_bottle
-  end
-
-  def it_or_one(num)
-    BottleNumber.new(num).it_or_one
-  end
-
-  def bottles_remaining(num)
-    BottleNumber.new(num).bottles_remaining
-  end
-
-  def decrement(num)
-    BottleNumber.new(num).decrement
-  end
-
-  def no_more(num)
-    BottleNumber.new(num).no_more
-  end
-
 end
 
 class BottleNumber
+  def self.for(num)
+    begin
+      Object.const_get("BottleNumber#{num}").new(num)
+    rescue NameError
+      BottleNumber.new(num)
+    end
+  end
+
   def initialize(num=nil)
     @num = num
   end
 
-  def no_more
-    @num == 0 ? "no more" : "#{@num}"
-  end
-
-  def decrement
-    return 99 if @num == 0
-    @num - 1
-  end
-
-  def bottles_remaining
-    if @num == 1
-      "no more bottles"
-    else
-      "#{decrement(@num)} #{bottles_or_bottle(@num - 1)}"
-    end
-  end
-
-  def it_or_one
-    @num == 1 ? "it" : "one"
+  def action
+    "Take #{it_or_one} down and pass it around"
   end
 
   def bottles_or_bottle
-    @num == 1 ? "bottle" : "bottles"
+    "bottles of beer"
   end
 
+  def it_or_one
+    "one"
+  end
+
+  def decrement
+    @num.pred
+  end
+
+  def no_more
+    "#{@num}"
+  end  
+end
+
+class BottleNumber0 < BottleNumber
   def action
-    if @num == 0
-      "Go to the store and buy some more"
-    else
-      "Take #{it_or_one(@num)} down and pass it around"
-    end
+    "Go to the store and buy some more" 
+  end
+
+  def no_more
+    "no more"
+  end
+
+  def decrement
+    return 99 
   end
 end
 
+class BottleNumber1 < BottleNumber
+  def bottles_or_bottle
+    "bottle of beer" 
+  end
 
+  def it_or_one
+    "it"
+  end
+end
 
+class BottleNumber6 < BottleNumber
+  def bottles_or_bottle
+    "pack of beer"
+  end
+end
