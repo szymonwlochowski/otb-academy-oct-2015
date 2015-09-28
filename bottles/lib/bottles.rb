@@ -20,7 +20,11 @@ end
 class BottleNumber
   def self.for(num)
     begin
-      Object.const_get("BottleNumber#{num}").new(num)
+      if num % 6 == 0 && num != 0 
+        Object.const_get("BottleNumber6").new(num)
+      else
+        Object.const_get("BottleNumber#{num}").new(num)
+      end
     rescue NameError
       BottleNumber.new(num)
     end
@@ -49,9 +53,18 @@ class BottleNumber
   def no_more
     "#{@num}"
   end  
+
+  def self.number
+    @num
+  end
 end
 
 class BottleNumber0 < BottleNumber
+
+  #def self.number
+  #  0
+  #end
+
   def action
     "Go to the store and buy some more" 
   end
@@ -66,6 +79,10 @@ class BottleNumber0 < BottleNumber
 end
 
 class BottleNumber1 < BottleNumber
+
+  #def self.number
+  #  1
+  #end
   def bottles_or_bottle
     "bottle of beer" 
   end
@@ -76,7 +93,19 @@ class BottleNumber1 < BottleNumber
 end
 
 class BottleNumber6 < BottleNumber
+
+  #def self.number
+  #  6
+  #end
+  def no_more
+    (@num/6).to_s 
+  end
+
   def bottles_or_bottle
-    "pack of beer"
+    if @num/6 == 1 
+      "6pack of beer"
+    else
+      "6packs of beer"
+    end
   end
 end
