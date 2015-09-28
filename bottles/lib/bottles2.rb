@@ -47,6 +47,13 @@ class Bottles
   end
 
   def no_more(num)
+    BottleNumber.new.no_more(num)
+    num == 0 ? "no more" : "#{num}"
+  end
+end
+
+class BottleNumber
+  def no_more(num)
     num == 0 ? "no more" : "#{num}"
   end
 end

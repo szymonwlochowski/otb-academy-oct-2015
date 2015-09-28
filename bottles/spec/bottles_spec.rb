@@ -1,4 +1,5 @@
 require 'bottles'
+require 'bottles2'
 
 describe "singing 99 bottles of beer" do
 
