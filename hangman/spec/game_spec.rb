@@ -1,29 +1,46 @@
 require_relative '../lib/Game'
 RSpec.describe "Game" do
-  let(:generator) { double("generator", :generate_word => "rabbit")}
   let(:display) { double("display")}
-  let(:game) { Game.new(generator, display) }
+  let(:word) { double("word")}
+  let(:bad_guesses) { double("bad_guesses")}
+  let(:scaffold) { double("scaffold")}
+  let(:generator) { double("generator", :generate_word => word)}
+  let(:game) { Game.new(generator, 
+    display, 
+    bad_guesses, 
+    scaffold) }
 
   context "when initialized" do
 
     it "generates a word" do
       expect( generator ).to receive(:generate_word)
-      allow( display ).to receive(:display_word).with(anything)
-      allow( display ).to receive(:display_scaffold).with(anything)
-      allow( display ).to receive(:display_bad_guesses).with(anything)
-      game = Game.new(generator, display)
+      allow( display ).to receive(:display_word)
+      allow( display ).to receive(:display_scaffold)
+      allow( display ).to receive(:display_bad_guesses)
+      allow( scaffold).to receive(:progress)
+      game = Game.new(generator, 
+                      display, 
+                      bad_guesses, 
+                      scaffold)
     end
 
     it "displays state of the game" do
-      expect( display ).to receive(:display_word).with(anything)
-      expect( display ).to receive(:display_scaffold).with(anything)
-      expect( display ).to receive(:display_bad_guesses).with(anything)
-      game = Game.new(generator, display)
+      allow(word).to receive(:to_s).and_return('_ _ _ _ _ _')
+      allow(scaffold).to receive(:progress).and_return(0)
+      allow(bad_guesses).to receive(:to_s).and_return('')
+
+      expect( display ).to receive(:display_word).with('_ _ _ _ _ _')
+      expect( display ).to receive(:display_scaffold).with(0)
+      expect( display ).to receive(:display_bad_guesses).with('')
+      game = Game.new(generator, 
+                      display, 
+                      bad_guesses, 
+                      scaffold)
     end
 
   end
 
-  context "when playing the game" do
+  xcontext "when playing the game" do
 
     it "handles incorrect guess" do
       expect( display ).to receive(:display_scaffold).with(1)
@@ -32,12 +49,12 @@ RSpec.describe "Game" do
     end
 
     it "handles correct guess" do
-      expect( display ).to receive(:display_word).with("r_____")
+      expect( display ).to receive(:display_word).with("r _ _ _ _ _")
       game.guess("r")
     end
 
     it "handles correct guess with multiple hits" do
-      expect( display ).to receive(:display_word).with("__bb__")
+      expect( display ).to receive(:display_word).with("_ _ b b _ _")
       game.guess("b")
     end
 
@@ -61,7 +78,10 @@ RSpec.describe "Game" do
 
     it "handles loosing correctly" do
       expect( display ).to receive(:display_end_game).with("you lost")
-      9.times { game.guess("x") }
+      ["x", 'y', 'c', 'd', 'e', 'f', 'g', 'h', 'j'].each { |letter| 
+        game.guess(letter)
+      }
+      # 9.times { game.guess(["x", 'y', 'c', 'd', 'e', 'f']) }
     end
 
   end
