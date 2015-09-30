@@ -43,6 +43,21 @@ RSpec.describe "Game" do
 
     it "handles winning correctly" do
       expect( display ).to receive(:display_end_game).with("you won")
+      game.guess("r")
+      game.guess("a")
+      game.guess("b")
+      game.guess("i")
+      game.guess("t")
+    end
+
+    it "handles winning correctly by guessing the whole word" do
+      expect( display ).to receive(:display_end_game).with("you won")
+      game.guess_word("rabbit")
+    end
+
+    it "handles loosing correctly" do
+      expect( display ).to receive(:display_end_game).with("you lost")
+      9.times { game.guess("x") }
     end
 
   end
